@@ -1,5 +1,6 @@
 import sqlite3
 import requests
+from datetime import datetime
 
 conexao = sqlite3.connect("dados.db")
 cursor = conexao.cursor()
@@ -11,9 +12,10 @@ for codigo in codigos:
     dados = requests.get(url).json()
 
     for item in dados:
+        data_iso = datetime.strptime(item["data"], "%d/%m/%Y").strftime("%Y-%m-%d")
         cursor.execute(
             "INSERT OR IGNORE INTO indicadores (codigo, data, valor) VALUES (?, ?, ?)",
-            (codigo, item["data"], float(item["valor"])),
+            (codigo, data_iso, float(item["valor"])),
         )
 
 conexao.commit()
