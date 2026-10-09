@@ -49,7 +49,17 @@ st.subheader("Selic (meta, % ao ano)")
 st.altair_chart(grafico_linha(selic))
 
 st.subheader("IPCA (variação mensal, %)")
-st.bar_chart(ipca, x="data", y="valor")
+ipca_grafico = ipca.copy()
+ipca_grafico["mes"] = ipca_grafico["data"].dt.strftime("%Y-%m")
+grafico_ipca = (
+    alt.Chart(ipca_grafico)
+    .mark_bar()
+    .encode(
+        x=alt.X("mes:O", title="Mês"),
+        y=alt.Y("valor:Q", title="Variação (%)"),
+    )
+)
+st.altair_chart(grafico_ipca)
 
 st.subheader("Todos os dados")
 tabela = df.sort_values("data", ascending=False).copy()
