@@ -36,8 +36,8 @@ def grafico_linha(dados):
         alt.Chart(dados)
         .mark_line()
         .encode(
-            x="data:T",
-            y=alt.Y("valor:Q", scale=alt.Scale(zero=False)),
+            x=alt.X("data:T", title="Data", axis=alt.Axis(format="%m/%Y")),
+            y=alt.Y("valor:Q", title="Valor", scale=alt.Scale(zero=False)),
         )
     )
 
